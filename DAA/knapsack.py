@@ -74,28 +74,41 @@ def knapsack_memoization(costs, weights, limit, n=None, memo=None):
 
 def knapsack_dp(costs, weights, limit):
     n = len(weights)
-    dp = [0] * (limit + 1)
-    keep = [[False] * (limit + 1) for _ in range(n)]
+    dp = [[0] * (limit + 1) for _ in range(n + 1)]
 
-    for i in range(n):
-        for w in range(limit, weights[i] - 1, -1):
-            if dp[w - weights[i]] + costs[i] > dp[w]:
-                dp[w] = dp[w - weights[i]] + costs[i]
-                keep[i][w] = True
+    for i in range(1, n + 1):
+        for w in range(1, limit + 1):
+            if weights[i - 1] > w:
+                dp[i][w] = dp[i - 1][w]
+            else:
+                dp[i][w] = max(
+                    dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + costs[i - 1]
+                )
 
     w = limit
     selected_items = []
-    for i in range(n - 1, -1, -1):
-        if keep[i][w]:
-            selected_items.append((costs[i], weights[i]))
-            w -= weights[i]
+    for i in range(n, 0, -1):
+        if dp[i][w] != dp[i - 1][w]:
+            selected_items.append((costs[i - 1], weights[i - 1]))
+            w -= weights[i - 1]
 
     return selected_items[::-1]
 
 
 def main():
-    items_store = None
-    limit = 100
+    items_store = {
+        10: 2,
+        30: 3,
+        60: 5,
+        50: 6,
+        80: 7,
+        90: 8,
+        100: 9,
+        95: 10,
+        110: 11,
+        130: 12,
+    }
+    limit = 25
 
     reversed_store = {weight: item for item, weight in items_store.items()}
     reversed_store = dict(sorted(reversed_store.items()))
@@ -116,39 +129,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-"""
-items_store = {
-        10: 2,
-        30: 3,
-        60: 5,
-        50: 6,
-        80: 7,
-        90: 8,
-        100: 9,
-        95: 10,
-        110: 11,
-        130: 12,
-        125: 13,
-        140: 14,
-        150: 15,
-        160: 16,
-        175: 17,
-        180: 18,
-        190: 19,
-        200: 20,
-        210: 21,
-        220: 22,
-        230: 23,
-        250: 24,
-        260: 25,
-        270: 26,
-        290: 27,
-        300: 28,
-        310: 29,
-        320: 30,
-        330: 31,
-        350: 32,
-    }
-"""

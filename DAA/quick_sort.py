@@ -93,11 +93,11 @@ def simulate(arr):
         sc_random.append(rsc)
 
     print(
-        f"Deterministic Quicksort on : {arr}\n{'Sorted arrays':>20} = {res_deterministic}\n{'Iterations':>20} = {count_deterministic}\n{'Time Complexities':>20} = {tc_deterministic} (Mean = {mean(tc_deterministic)} ms)\n{'Space Complexities':>20} = {sc_deterministic} (Mean = {mean(sc_deterministic)} KB)"
+        f"{'Deterministic Quicksort on':>27} {arr}\n{'Sorted arrays':>25} = {list(res_deterministic)[0]}\n{'Iterations':>25} = {count_deterministic} (Mean = {round(mean(count_deterministic), 2)})\n{'Time Complexities':>25} = {tc_deterministic} (Mean = {round(mean(tc_deterministic), 2)} ms)\n{'Space Complexities':>25} = {round(mean(sc_deterministic), 2)} (Mean = {mean(sc_deterministic)} KB)"
     )
 
     print(
-        f"\nRandomized Quicksort on : {arr}\n{'Sorted arrays':>20} = {res_random}\n{'Iterations':>20} = {count_random}\n{'Time Complexities':>20} = {tc_random} (Mean = {mean(tc_random)} ms)\n{'Space Complexities':>20} = {sc_random} (Mean = {mean(sc_random)} KB)\n"
+        f"\n{'Randomized Quicksort on':>27} {arr}\n{'Sorted arrays':>25} = {list(res_random)[0]}\n{'Iterations':>25} = {count_random} (Mean = {round(mean(count_random), 2)})\n{'Time Complexities':>25} = {tc_random} (Mean = {round(mean(tc_random))} ms)\n{'Space Complexities':>25} = {sc_random} (Mean = {round(mean(sc_random))} KB)\n"
     )
 
 

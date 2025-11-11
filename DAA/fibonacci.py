@@ -23,14 +23,16 @@ def fib_iterative(n):
         return n - 1, iterations
 
     prev, curr = 0, 1
-    for _ in range(2, n):
+    for _ in range(3, n + 1):
         prev, curr = curr, prev + curr
         iterations += 1
 
     return curr, iterations
 
 
-def fib_recursive(n, calls=0):
+def fib_recursive(n, calls=None):
+    if calls is None:
+        calls = 0
     calls += 1
 
     if n <= 2:
@@ -41,29 +43,34 @@ def fib_recursive(n, calls=0):
     return val1 + val2, c2
 
 
-def fib_memo(n):
-    def helper(k, counter, memo):
-        counter[0] += 1
-        if k <= 2:
-            return k - 1
-        if k in memo:
-            return memo[k]
-        memo[k] = helper(k - 1, counter, memo) + helper(k - 2, counter, memo)
-        return memo[k]
+def fib_memoization(n, calls=None, memo=None):
+    if calls is None:
+        calls = 0
+    if memo is None:
+        memo = {}
+    calls += 1
 
-    counter = [0]
-    res = helper(n, counter, {1: 0, 2: 1})
-    return res, counter[0]
+    if n <= 2:
+        memo[n] = n - 1
+        return memo[n], calls
+    if n in memo:
+        return memo[n], calls
+
+    val1, c1 = fib_memoization(n - 1, calls, memo)
+    val2, c2 = fib_memoization(n - 2, calls, memo)
+
+    memo[n] = val1 + val2
+    return memo[n], c1 + c2
 
 
 def main():
-    for n in [1, 5, 10, 20, 30, 35]:
+    for n in [1, 2, 3, 4, 5, 10, 20, 30, 35]:
         print()
-        for fn in (fib_iterative, fib_recursive, fib_memo):
+        for fn in (fib_recursive, fib_memoization, fib_iterative):
             (value, count), avg_time, peak = timed_peak(fn, n)
             name = f"{fn.__name__[4:].title()}({n})"
             print(
-                f"{name:>13} = {value:<10} {'Iterations':>10} = {count:<10} {'time(ms)':>10} ≈ {avg_time:<10} {'peak(KB)':>10} ≈ {peak:<10}"
+                f"{name:>15} = {value:<10} {'Iterations':>10} = {count:<10} {'time(ms)':>10} ≈ {avg_time:<10} {'peak(KB)':>10} ≈ {peak:<10}"
             )
 
 
