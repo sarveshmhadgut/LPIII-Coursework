@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "catppuccin>=2.5.0",
+    "imblearn>=0.0",
     "matplotlib>=3.10.7",
     "numpy>=2.2.6",
     "pandas>=2.3.3",
